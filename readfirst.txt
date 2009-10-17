@@ -1,0 +1,11 @@
+OK, so far it works but the tab appears in the main section instead of the admin
+panel.  Once you click on the tab it will redirect to the admin area
+
+You need to copy helpers/application_helper.rb and common/_empty.html.haml into the main
+fat free crm directory for now, its a quick fix as there are two methods changed 
+
+You may need to copy _edit.html.haml into the main views also
+- later I'll get round to doing this
+
+
+
