@@ -1,0 +1,49 @@
+.section
+  %table{ :width => 500, :cellpadding => 0, :cellspacing => 0 }
+    %tr
+      %td{ :valign => :top }
+        .label.top.req Field name:
+        = f.text_field :field_name, :style => "width:140px"
+      %td= spacer
+      %td{ :valign => :top }
+        .label.top.req Field type:
+        = f.select :field_type, @type, { :selected => @customfield.field_type.blank? ? nil : @customfield.field_type}, { :style => "width:140px" , :disabled=>@disabled}
+    %tr
+      %td{ :valign => :top }
+        .label.top.req Field label:
+        = f.text_field :field_label, :style => "width:140px"
+      %td= spacer
+      %td{ :valign => :top }
+        .label.top.req Table:
+        = f.select :table_name, @table_name, { :selected => @customfield.table_name.blank? ? nil : @customfield.table_name}, { :style => "width:140px", :disabled=>@disabled}
+
+    %tr
+      %td{ :valign => :top }
+        .label.top.req Max Size:
+        = f.text_field :max_size, :style => "width:40px"
+      %td= spacer
+      %td{ :valign => :top }
+        .label.top.req Width:
+        = f.text_field :display_width, :style => "width:40px"
+
+    %tr
+      %td{ :valign => :top }
+        .label.top.req Required:
+        = f.check_box :required
+      %td= spacer
+      %td{ :valign => :top }
+        .label.top.req Disabled:
+        = f.check_box :disabled
+
+    %tr
+      %td{ :valign => :top }
+        .label.top.req Block:
+        = f.text_field :display_block, :style => "width:40px"
+      %td= spacer
+      %td{ :valign => :top }
+        .label.top.req Sequence:
+        = f.text_field :display_sequence, :style => "width:40px"
+
+
+
+= hook(:customfield_top_section_bottom, self, :f => f)

@@ -1,0 +1,2 @@
+page[dom_id(@customfield)].visual_effect "blind_up", :duration => 0.25
+page[:paginate].replace_html render(:partial => "common/paginate")

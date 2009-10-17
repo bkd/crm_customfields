@@ -1,0 +1,10 @@
+.remote
+  - remote_form_for([:admin, @customfield], :html => one_submit_only(:customfield)) do |f|
+    = link_to_close edit_admin_customfield_path(@customfield)
+    = f.hidden_field :user_id
+    = f.error_messages
+    = render :partial => "admin/customfields/top_section", :locals => { :f => f, :edit => true }
+    .buttonbar
+      = f.submit "Save Custom field"
+      or
+      = link_to_cancel edit_admin_customfield_path(@customfield)

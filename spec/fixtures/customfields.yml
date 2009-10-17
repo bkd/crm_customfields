@@ -1,0 +1,47 @@
+# == Schema Information
+# Schema version: 21
+#
+# Table name: customfields
+#
+#  id          :integer(4)      not null, primary key
+#  user_id     :integer(4)
+#      t.string      :field_name,  :limit => 64
+#      t.string      :field_type,  :limit => 32
+#      t.string      :field_label, :limit => 64
+#      t.string      :table,       :limit => 32
+#      t.integer     :sequence,    :limit => 4
+#      t.integer     :block,       :limit => 4
+#      t.integer     :width,       :limit => 4
+#      t.integer     :max_size,    :limit => 4
+#      t.boolean     :required
+#      t.boolean     :disabled
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
+<% 
+  require "faker"
+  puts "Loading customfields..."
+
+  field_name = [ "", "skype_address", "voip_buster_address","task_cost"]
+  field_label = [ "", "skype address", "voip buster address","task cost"]
+  field_type = %w(Integer Decimal Float String Date Text)
+  table_name = %w(Account Contact Opportunity)
+  
+  for i in (1 .. rand(20) + 100) do
+%>
+customfield_<%= i %>:
+  id               : <%= i %>
+  user_id          : <%= rand(8) + 1 %>
+  field_name       : <%= field_name[rand(field_name.size)] %>
+  field_label      : <%= field_type[rand(field_type.size)] %>
+  table_name       : <%= table[rand(table.size)] %>
+  display_sequence : <%= rand(8) %>
+  display_block    : <%= rand(8) %>
+  display_width    : <%= rand(8) %>
+  max_size         : <%= rand(8) %>
+  required         : false
+  disabled         : false
+  created_at       : <%= created_at = (rand(60) + 2).days.ago + rand(600).minutes; created_at.to_s(:db) %>
+  updated_at       : <%= (created_at + rand(36_000).seconds).to_s(:db) %>
+<% end %>

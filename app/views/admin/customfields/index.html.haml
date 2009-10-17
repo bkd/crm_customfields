@@ -1,0 +1,29 @@
+= styles_for :customfields
+
+.title_tools
+  = link_to_inline(:create_customfield, new_admin_customfield_path) << " | "
+  = link_to_inline(:options, options_admin_customfields_path)
+
+.title
+  %span#create_customfield_title Custom fields
+  
+.remote#options{ hidden }
+.remote#create_customfield{ hidden }
+
+%br
+.customfield_check
+  %br
+  Warning:: you must run "db:migrate" to keep your database uptodate immediately after creating changes to customfields
+  %br
+  %br
+  = "Schema version #{@current_schema}, new migration files #{@migration_file_count }"
+  %br
+  %br
+
+
+.list#customfields
+  - unless @customfields.empty?
+    = render :partial => "customfield", :collection => @customfields
+  - else
+    = render :partial => "common/empty"
+#paginate= render :partial => "common/paginate"
