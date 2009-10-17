@@ -7,5 +7,11 @@ fat free crm directory for now, its a quick fix as there are two methods changed
 You may need to copy _edit.html.haml into the main views also
 - later I'll get round to doing this
 
+Add this to your edit method in accounts_controller.rb
+    @customfields=Customfield.find_all_by_table_name('Account')
 
+Add this to your edit method in contacts_controller.rb
+    @customfields=Customfield.find_all_by_table_name('Contact')
 
+Add this to your edit method in opportunities_controller.rb
+    @customfields=Customfield.find_all_by_table_name('Opportunity')
