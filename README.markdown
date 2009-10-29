@@ -28,3 +28,61 @@ Then run the following command:
 
 Then restart your web server.
 
+
+A few others have tried this so for now some useful pointers, some quick fixes to make sure you can get it to work for now.  The whole plugin as been redeveloped and its coming along, this will be a quick solution, rather ugly but will work.
+
+1. add this to _edit.html.haml in view/accounts  and modify then add to view/contacts, view/opportunities
+= render :partial => "accounts/customfields", :locals => { :f => f, :edit => true }
+
+2. also create a file called _customfields.html.haml in the view/accounts folder
+add this to the file
+
+
+- collapsed = session[:account_customfields].nil? # && @account.errors.empty?
+= subtitle :account_customfields, collapsed, "Custom fields"
+.section
+  %small#account_customfields_intro{ hidden_if(!collapsed) }
+    You can add custom information below, check with your administator if you need to add new fields here.
+  #account_customfields{ hidden_if(collapsed) }
+    %table{ :width => 500, :cellpadding => 0, :cellspacing => 0 }
+      - @customfields.each_with_index do |cf,i| 
+        - if i.even?
+          %tr 
+        %td{ :valign => :top }
+          .label.top.req 
+            =cf.field_label
+          = f.text_field cf.field_name, :style => "width: #{cf.display_width}px" if cf.field_type=='Integer'
+          = f.text_field cf.field_name, :style => "width: #{cf.display_width}px" if cf.field_type=='String'
+          = f.textarea cf.field_name, :style => "width: #{cf.display_width}px" if cf.field_type=='Textarea'
+            
+      
+3.  change common/_empty.html.haml to 
+
+- assets = controller.controller_name
+- asset = assets.singularize
+- if controller.controller_name == 'customfields'
+  - admin_link = "admin_" 
+- else 
+  - admin_link = ""
+#empty
+  - if @current_query.blank?
+    == Couldn't find #{assets}. Feel free to #{link_to_remote("create a new " << asset, :url => send("new_" << admin_link << asset << "_path"))}.
+  - else
+    == Couldn't find #{assets} matching <span class="cool"><b>#{h @current_query}</b></span>; please try another query.
+
+
+
+4. in application_helper change to
+
+  #----------------------------------------------------------------------------
+  def link_to_edit(model)
+    name = model.class.name.downcase
+    name=='customfield' ? admin_link="admin_" : admin_link=""
+    link_to_remote("Edit",
+      :method => :get,
+      :url    => send("edit_#{admin_link}#{name}_path", model),
+      :with   => "{ previous: crm.find_form('edit_#{admin_link}#{name}') }"
+    )
+  end
+
+this should work!!
